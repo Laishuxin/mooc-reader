@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@localhost" uuid="62b8251b-10cc-4d0c-a66a-f4f2e1b95b49">
+    <data-source source="LOCAL" name="mooc_reader@localhost" uuid="b9ed4593-50ed-4c0d-9e0d-37ad04f954c6">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/mooc_reader</jdbc-url>
     </data-source>
   </component>
 </project>

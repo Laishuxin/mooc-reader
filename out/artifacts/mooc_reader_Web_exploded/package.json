@@ -1,0 +1,13 @@
+{
+  "name": "webapp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "axios": "^0.27.2"
+  },
+  "dependencies": {
+    "typescript": "^4.8.4"
+  }
+}
