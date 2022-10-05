@@ -165,6 +165,8 @@
 
               if (current == pages) {
                 this.state.isLastPage = true
+              } else {
+                this.state.isLastPage = false
               }
             } catch (err) {
               console.error('获取图书失败：', err)

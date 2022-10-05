@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 @Service
 @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
 public class BookServiceImpl implements BookService {
+
     @Resource
     private BookMapper bookMapper;
 
@@ -42,5 +43,10 @@ public class BookServiceImpl implements BookService {
         }
         p = bookMapper.selectPage(p, wrapper);
         return p;
+    }
+
+    @Override
+    public Book selectById(Long bookId) {
+        return bookMapper.selectById(bookId);
     }
 }

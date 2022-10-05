@@ -24,8 +24,8 @@ public interface BookService {
      * @param bookId 图书编号
      * @return 图书对象
      */
-//    Book selectById(Long bookId);
-//
+    Book selectById(Long bookId);
+
 //    void updateScore();
 //
 //    IPage<Map> selectBookMap(Integer page, Integer rows);

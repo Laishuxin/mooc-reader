@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mooc.reader.entity.Book;
 import com.mooc.reader.service.BookService;
 import com.mooc.reader.utils.ResponseUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -36,5 +33,17 @@ public class BookController {
             result = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
         }
         return result;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseUtils selectBookByid(@PathVariable(value = "id") Long id) {
+        ResponseUtils res = new ResponseUtils();
+        try {
+            Book book = bookService.selectById(id);
+            res.put("book", book);
+        } catch (Exception e) {
+           res = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return res;
     }
 }
