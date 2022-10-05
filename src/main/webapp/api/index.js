@@ -44,6 +44,13 @@ function getCategory() {
   }).then((res) => res.list)
 }
 
+function getBooks(params = {}) {
+  return get({
+    url: '/api/book/list',
+    params,
+  })
+}
+
 window.http = {
   get,
   post,
@@ -52,4 +59,5 @@ window.http = {
   request,
 
   getCategory,
+  getBooks,
 }

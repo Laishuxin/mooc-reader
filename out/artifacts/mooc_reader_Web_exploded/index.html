@@ -128,42 +128,7 @@
         data() {
           //初始数据
           return {
-            bookList: [
-              {
-                //图书数据
-                bookId: 5,
-                bookName: '从 0 开始学爬虫',
-                subTitle: '零基础开始到大规模爬虫实战',
-                author: '梁睿坤 · 19年资深架构师',
-                cover: '/images/5ce256ea00014bc903600480.jpg',
-                description: '...',
-                categoryId: 2,
-                evaluationScore: 4.9,
-                evaluationQuantity: 15,
-              },
-              {
-                bookId: 25,
-                bookName: '网络协议那些事儿',
-                subTitle: '前后端通用系列课',
-                author: 'Oscar · 一线大厂高级软件工程师',
-                cover: '/images/5da923d60001a92f05400720.jpg',
-                description: '...',
-                categoryId: 2,
-                evaluationScore: 4.7,
-                evaluationQuantity: 15,
-              },
-              {
-                bookId: 1,
-                bookName: '教你用 Python 进阶量化交易',
-                subTitle: '你的量化交易开发第一课',
-                author: '袁霄 · 全栈工程师',
-                cover: '/images/5c247b0b0001a0a903600480.jpg',
-                description: '...',
-                categoryId: 1,
-                evaluationScore: 4.6,
-                evaluationQuantity: 13,
-              },
-            ], //当前要显示的书籍内容
+            bookList: [], //当前要显示的书籍内容
             state: {
               category: -1, //技术分类，默认分类选中"所有类别"
               order: 'quantity', //排序，默认按热度排序
@@ -180,32 +145,49 @@
           }
         },
         methods: {
-          /*
-           * onchange 当页面状态发生变更后,Ajax重新查询图书数据
-           * isFlush 参数说明是否清空已有图书列表
-           */
-          onchange: function (isFlush) {},
+          async getBooks(params = {}) {
+            try {
+              const res = await window.http.getBooks({
+                categoryId: this.state.category,
+                order: this.state.order,
+                page: this.state.page,
+                rows: 10,
+                ...params,
+              })
+              const { current, list, pages, total } = res
+              this.state.page = current
+
+              if (current == 1) {
+                this.bookList = list
+              } else {
+                this.bookList = this.bookList.concat(list)
+              }
+
+              if (current == pages) {
+                this.state.isLastPage = true
+              }
+            } catch (err) {
+              console.error('获取图书失败：', err)
+            }
+          },
           //点击"加载更多"按钮时,向服务器查询下一页数据
           loadMore: function () {
             //如果当前不是最后一页,则当前页号+1并向服务器发起请求查询下一页数据
             if (this.state.isLastPage == false) {
-              this.state.page = this.state.page + 1
-              this.onchange()
+              this.getBooks({
+                page: this.state.page + 1,
+              })
             }
           },
           //当更改"分类"下拉选项后,清空原有数据进行查询
           changeCategory: function () {
-            //页号重置为1
-            this.state.page = 1
-            //重新查询图书数据
-            this.onchange(true)
+            this.getBooks({ page: 1 })
           },
           //当更改"排序"下拉选项后,清空原有数据进行查询
           changeOrder: function () {
             //页号重置为1
-            this.state.page = 1
             //重新查询图书数据
-            this.onchange(true)
+            this.getBooks({ page: 1 })
           },
           //点击右上角"登录"按钮后,跳转至登录页
           clickRight: function () {
@@ -237,6 +219,7 @@
         async mounted() {
           const categories = await window.http.getCategory()
           this.categoryOptions = this.mergeCategories(categories)
+          this.getBooks()
 
           const objApp = this
           const mid = sessionStorage.mid
