@@ -51,6 +51,20 @@ function getBooks(params = {}) {
   })
 }
 
+function getBookById(params) {
+  const { id } = params
+  return get({
+    url: `/api/book/${id}`,
+  }).then((res) => res.book)
+}
+
+function getEvaluations(params) {
+  return get({
+    url: '/api/evaluation/list',
+    params,
+  }).then((res) => res.list)
+}
+
 window.http = {
   get,
   post,
@@ -60,4 +74,7 @@ window.http = {
 
   getCategory,
   getBooks,
+  getBookById,
+  
+  getEvaluations,
 }
