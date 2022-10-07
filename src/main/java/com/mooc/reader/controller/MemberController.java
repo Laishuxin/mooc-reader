@@ -1,12 +1,10 @@
 package com.mooc.reader.controller;
 
 import com.mooc.reader.entity.Member;
+import com.mooc.reader.entity.MemberReadState;
 import com.mooc.reader.service.MemberService;
 import com.mooc.reader.utils.ResponseUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -63,10 +61,32 @@ public class MemberController {
             Member member = memberService.checkLogin(username, password);
             res = new ResponseUtils();
             res.put("member", member);
-            res.put("test", "1");
         } catch (Exception e) {
             res = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
         }
         return res;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseUtils selectById(@PathVariable("id") Long memberId) {
+        ResponseUtils res;
+        try {
+            Member member = memberService.selectById(memberId);
+            res = new ResponseUtils();
+            res.put("member", member);
+        } catch (Exception e) {
+            res = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return res;
+    }
+
+    @GetMapping("/read_state")
+    public ResponseUtils selectReadState(Long memberId, Long bookId) {
+        try {
+            MemberReadState memberReadState = memberService.selectReadState(memberId, bookId);
+            return new ResponseUtils().put("readState", memberReadState);
+        } catch (Exception e) {
+            return new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
     }
 }

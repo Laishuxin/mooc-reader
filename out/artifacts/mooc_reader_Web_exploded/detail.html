@@ -296,10 +296,46 @@
           updateReadState: function (readState) {},
           onSubmit: function (formName) {},
           enjoy: function (index) {},
+
+          async getMember() {
+            const memberId = window.sessionStorage.getItem('member_id')
+            if (memberId == null) {
+              return
+            }
+
+            const member = await window.http.getMember({ memberId })
+            this.state.isLogin = true
+            console.log('member: ', member)
+            this.state.member = member
+            vant.Notify({
+              type: 'success',
+              message: 'Welcome!',
+            })
+          },
+
+          async getReadState() {
+            const memberId = window.sessionStorage.getItem('member_id')
+            if (memberId == null) {
+              return
+            }
+
+            const readState = await window.http.getReadState({
+              memberId,
+              bookId: this.state.bookId,
+            })
+            if (readState != null) {
+              this.state.readState = readState.readState
+            } else {
+              this.state.readState = -1
+            }
+          },
         },
 
         async mounted() {
           this.init()
+          this.getMember()
+          this.getReadState()
+
           window.http.getBookById({ id: this.state.bookId }).then((book) => {
             this.book = book
           })

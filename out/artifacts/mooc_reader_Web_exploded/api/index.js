@@ -79,6 +79,20 @@ function register(params) {
   })
 }
 
+function getMember(params) {
+  const { memberId } = params
+  return get({
+    url: `/api/member/${memberId}`,
+  }).then((res) => res.member)
+}
+
+function getReadState(params) {
+  return get({
+    url: '/api/member/read_state',
+    params,
+  }).then((res) => res.readState)
+}
+
 window.http = {
   get,
   post,
@@ -93,4 +107,7 @@ window.http = {
   getEvaluations,
   register,
   login,
+  getMember,
+
+  getReadState,
 }

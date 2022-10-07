@@ -2,7 +2,9 @@ package com.mooc.reader.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.mooc.reader.entity.Member;
+import com.mooc.reader.entity.MemberReadState;
 import com.mooc.reader.mapper.MemberMapper;
+import com.mooc.reader.mapper.MemberReadStateMapper;
 import com.mooc.reader.service.MemberService;
 import com.mooc.reader.service.exception.MemberException;
 import com.mooc.reader.utils.Md5Utils;
@@ -20,6 +22,8 @@ import java.util.Random;
 public class MemberServiceImpl implements MemberService {
     @Resource
     private MemberMapper memberMapper;
+    @Resource
+    MemberReadStateMapper memberReadStateMapper;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -55,5 +59,19 @@ public class MemberServiceImpl implements MemberService {
             throw new MemberException("密码错误");
         }
         return member;
+    }
+
+    @Override
+    public Member selectById(Long memberId) {
+        Member member = memberMapper.selectById(memberId);
+        return member;
+    }
+
+    @Override
+    public MemberReadState selectReadState(Long memberId, Long bookId) {
+        QueryWrapper<MemberReadState> memberReadStateQueryWrapper = new QueryWrapper<MemberReadState>();
+        memberReadStateQueryWrapper.eq("book_id", bookId);
+        memberReadStateQueryWrapper.eq("member_id", memberId);
+        return memberReadStateMapper.selectOne(memberReadStateQueryWrapper);
     }
 }

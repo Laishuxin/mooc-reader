@@ -147,6 +147,21 @@
           }
         },
         methods: {
+          async getMember() {
+            const memberId = window.sessionStorage.getItem('member_id')
+            if (memberId == null) {
+              return
+            }
+
+            const member = await window.http.getMember({ memberId })
+            this.state.isLogin = true
+            console.log('member: ', member)
+            this.state.member = member
+            vant.Notify({
+              type: 'success',
+              message: 'Welcome!',
+            })
+          },
           async getBooks(params = {}) {
             try {
               const res = await window.http.getBooks({
@@ -224,22 +239,23 @@
           const categories = await window.http.getCategory()
           this.categoryOptions = this.mergeCategories(categories)
           this.getBooks()
+          this.getMember()
 
-          const objApp = this
-          const mid = sessionStorage.mid
-          if (mid != null) {
-            axios
-              .get('/api/member/select_by_id?memberId=' + mid)
-              .then(function (response) {
-                const json = response.data
-                if (json.code == '0') {
-                  objApp.state.isLogin = true
-                  objApp.state.member = json.data.member
-                } else {
-                  console.error(json)
-                }
-              })
-          }
+          // const objApp = this
+          // const mid = sessionStorage.mid
+          // if (mid != null) {
+          //   axios
+          //     .get('/api/member/select_by_id?memberId=' + mid)
+          //     .then(function (response) {
+          //       const json = response.data
+          //       if (json.code == '0') {
+          //         objApp.state.isLogin = true
+          //         objApp.state.member = json.data.member
+          //       } else {
+          //         console.error(json)
+          //       }
+          //     })
+          // }
         },
       }
       const app = Vue.createApp(main)
