@@ -184,7 +184,7 @@
             ></van-rate>
             <van-button
               icon="like-o"
-              @click="enjoy(index)"
+              @click="enjoy(evaluation)"
               type="success"
               size="small"
               style="width: 40px; float: right;"
@@ -287,7 +287,13 @@
 
           showEvaluationList: function (bookId, isFlush) {},
           //显示短评对话框
-          showDialog: function () {},
+          showDialog: function () {
+            if (window.sessionStorage.getItem('member_id') == null) {
+              window.location.href = '/login.html'
+              return
+            }
+            this.state.dialogVisible = true
+          },
           clickRight: function () {
             if (this.state.isLogin == false) {
               window.location.href = '/login.html'
@@ -309,8 +315,33 @@
             console.log('updateReadState: ', _readState)
             this.state.readState = _readState.readState
           },
-          onSubmit: function (formName) {},
-          enjoy: function (index) {},
+          async onSubmit(formName) {
+            const form = this.$refs[formName]
+            await form.validate()
+            const formData = this.form
+            const evaluation = await window.http.addEvaluation({
+              ...formData,
+              bookId: this.state.bookId,
+              memberId: window.sessionStorage.getItem('member_id'),
+            })
+            this.state.dialogVisible = false
+            await this.getEvaluations()
+            vant.Notify({
+              type: 'success',
+              message: 'Success',
+            })
+          },
+          async enjoy(evaluation) {
+            const res = await window.http.enjoy({
+              evaluationId: evaluation.evaluation_id,
+            })
+            // this.evaluationList = this.evaluationList.map((item) =>
+            //   item.evaluation_id == evaluation.evaluation_id
+            //     ? { ...evaluation, enjoy: res.enjoy }
+            //     : item,
+            // )
+            evaluation.enjoy = res.enjoy
+          },
 
           async getMember() {
             const memberId = window.sessionStorage.getItem('member_id')
@@ -344,6 +375,23 @@
               this.state.readState = -1
             }
           },
+          async getEvaluations() {
+            window.http
+              .getEvaluations({
+                bookId: this.state.bookId,
+              })
+              .then((res) => {
+                this.evaluationList = res.map((item) => {
+                  // item.ct
+                  const { create_time } = item
+
+                  return {
+                    ...item,
+                    ct: formatDate(create_time),
+                  }
+                })
+              })
+          },
         },
 
         async mounted() {
@@ -354,22 +402,7 @@
           window.http.getBookById({ id: this.state.bookId }).then((book) => {
             this.book = book
           })
-
-          window.http
-            .getEvaluations({
-              bookId: this.state.bookId,
-            })
-            .then((res) => {
-              this.evaluationList = res.map((item) => {
-                // item.ct
-                const { create_time } = item
-
-                return {
-                  ...item,
-                  ct: formatDate(create_time),
-                }
-              })
-            })
+          this.getEvaluations()
         },
       }
       const app = Vue.createApp(main)

@@ -20,6 +20,19 @@ public class Evaluation {
     String disableReason;
     Date disableTime;
 
+    public Evaluation() {
+    }
+
+    public Evaluation(String content, Integer score, Long memberId, Long bookId) {
+        this.content = content;
+        this.score = score;
+        this.memberId = memberId;
+        this.bookId = bookId;
+        this.createTime = new Date();
+        this.enjoy = 0;
+        this.state = "enable";
+    }
+
     public Long getEvaluationId() {
         return evaluationId;
     }

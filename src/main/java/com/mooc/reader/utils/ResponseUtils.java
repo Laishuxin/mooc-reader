@@ -49,4 +49,8 @@ public class ResponseUtils {
     public void setData(Map data) {
         this.data = data;
     }
+
+    public static ResponseUtils error(Exception e) {
+        return new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+    }
 }

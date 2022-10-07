@@ -100,6 +100,20 @@ function updateReadState(params) {
   }).then((res) => res.readState)
 }
 
+function addEvaluation(params) {
+  return post({
+    url: `/api/evaluation/add`,
+    data: params,
+  })
+}
+
+function enjoy(params) {
+  return post({
+    url: '/api/evaluation/enjoy',
+    data: params,
+  }).then((res) => res.evaluation)
+}
+
 window.http = {
   get,
   post,
@@ -112,10 +126,13 @@ window.http = {
   getBookById,
 
   getEvaluations,
+  addEvaluation,
+
   register,
   login,
   getMember,
 
   getReadState,
   updateReadState,
+  enjoy,
 }

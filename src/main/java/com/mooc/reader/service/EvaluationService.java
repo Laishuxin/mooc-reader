@@ -1,12 +1,14 @@
 package com.mooc.reader.service;
 
-import com.mooc.reader.mapper.EvaluationMapper;
-import org.springframework.stereotype.Service;
+import com.mooc.reader.entity.Evaluation;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
 public interface EvaluationService {
-    public List<Map> selectByBookId(Long bookId);
+    Evaluation enjoy(Long evaluationId);
+
+    List<Map> selectByBookId(Long bookId);
+
+    Evaluation addEvaluation(Long memberId, Long bookId, Integer score, String content);
 }

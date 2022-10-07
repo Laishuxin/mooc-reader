@@ -8,6 +8,7 @@
     from evaluation e, member m
     where e.member_id = m.member_id
     and e.book_id = #{value}
+    and e.state='enable'
     order by create_time desc
   </select>
 </mapper>
