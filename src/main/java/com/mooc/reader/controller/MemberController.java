@@ -1,5 +1,6 @@
 package com.mooc.reader.controller;
 
+import com.mooc.reader.dto.UpdateReadStateDto;
 import com.mooc.reader.entity.Member;
 import com.mooc.reader.entity.MemberReadState;
 import com.mooc.reader.service.MemberService;
@@ -84,6 +85,16 @@ public class MemberController {
     public ResponseUtils selectReadState(Long memberId, Long bookId) {
         try {
             MemberReadState memberReadState = memberService.selectReadState(memberId, bookId);
+            return new ResponseUtils().put("readState", memberReadState);
+        } catch (Exception e) {
+            return new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+    }
+
+    @PostMapping("/read_state")
+    public ResponseUtils updateReadState(@RequestBody UpdateReadStateDto body) {
+        try {
+            MemberReadState memberReadState = memberService.updateReadState(body.getMemberId(), body.getBookId(), body.getReadState());
             return new ResponseUtils().put("readState", memberReadState);
         } catch (Exception e) {
             return new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());

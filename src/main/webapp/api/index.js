@@ -93,6 +93,13 @@ function getReadState(params) {
   }).then((res) => res.readState)
 }
 
+function updateReadState(params) {
+  return post({
+    url: `/api/member/read_state`,
+    data: params,
+  }).then((res) => res.readState)
+}
+
 window.http = {
   get,
   post,
@@ -110,4 +117,5 @@ window.http = {
   getMember,
 
   getReadState,
+  updateReadState,
 }

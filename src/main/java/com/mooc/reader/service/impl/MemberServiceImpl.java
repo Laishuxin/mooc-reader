@@ -74,4 +74,22 @@ public class MemberServiceImpl implements MemberService {
         memberReadStateQueryWrapper.eq("member_id", memberId);
         return memberReadStateMapper.selectOne(memberReadStateQueryWrapper);
     }
+
+    @Override
+    public MemberReadState updateReadState(Long memberId, Long bookId, Integer readState) {
+        MemberReadState memberReadState = selectReadState(memberId, bookId);
+        if (memberReadState == null) {
+            memberReadState = new MemberReadState();
+            memberReadState.setBookId(bookId);
+            memberReadState.setMemberId(memberId);
+            memberReadState.setCreateTime(new Date());
+            memberReadStateMapper.insert(memberReadState);
+        } else {
+            memberReadState.setReadState(readState);
+            memberReadState.setCreateTime(new Date());
+            memberReadStateMapper.updateById(memberReadState);
+        }
+
+        return memberReadState;
+    }
 }

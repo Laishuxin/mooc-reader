@@ -9,4 +9,6 @@ public interface MemberService {
     Member selectById(Long memberId);
 
     MemberReadState selectReadState(Long memberId, Long bookId);
+    MemberReadState updateReadState(Long memberId, Long bookId, Integer readState);
+
 }

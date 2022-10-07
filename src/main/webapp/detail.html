@@ -293,7 +293,22 @@
               window.location.href = '/login.html'
             }
           },
-          updateReadState: function (readState) {},
+
+          async updateReadState(readState) {
+            const memberId = window.sessionStorage.getItem('member_id')
+            if (memberId == null) {
+              window.location.href = '/login.html'
+              return
+            }
+
+            const _readState = await window.http.updateReadState({
+              bookId: this.state.bookId,
+              memberId,
+              readState,
+            })
+            console.log('updateReadState: ', _readState)
+            this.state.readState = _readState.readState
+          },
           onSubmit: function (formName) {},
           enjoy: function (index) {},
 

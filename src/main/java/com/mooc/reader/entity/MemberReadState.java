@@ -1,11 +1,14 @@
 package com.mooc.reader.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.util.Date;
 
 @TableName
 public class MemberReadState {
+    @TableId(type = IdType.AUTO)
     private Long rsId;
     private Long memberId;
     private Long bookId;
