@@ -288,7 +288,11 @@
           showEvaluationList: function (bookId, isFlush) {},
           //显示短评对话框
           showDialog: function () {},
-          clickRight: function () {},
+          clickRight: function () {
+            if (this.state.isLogin == false) {
+              window.location.href = '/login.html'
+            }
+          },
           updateReadState: function (readState) {},
           onSubmit: function (formName) {},
           enjoy: function (index) {},
@@ -305,7 +309,15 @@
               bookId: this.state.bookId,
             })
             .then((res) => {
-              this.evaluationList = res
+              this.evaluationList = res.map((item) => {
+                // item.ct
+                const { create_time } = item
+
+                return {
+                  ...item,
+                  ct: formatDate(create_time),
+                }
+              })
             })
         },
       }

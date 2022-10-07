@@ -76,4 +76,19 @@
     <property name="dataSource" ref="dataSource" />
   </bean>
   <tx:annotation-driven transaction-manager="transactionManager" />
+
+  <bean id="kaptchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+    <property name="config">
+      <bean class="com.google.code.kaptcha.util.Config">
+        <constructor-arg>
+          <props>
+            <prop key="kaptcha.border">no</prop>
+            <prop key="kaptcha.textproducer.font.color">blue</prop>
+            <prop key="kaptcha.textproducer.font.size">40</prop>
+            <prop key="kaptcha.textproducer.char.length">4</prop>
+          </props>
+        </constructor-arg>
+      </bean>
+    </property>
+  </bean>
 </beans>

@@ -65,6 +65,20 @@ function getEvaluations(params) {
   }).then((res) => res.list)
 }
 
+function login(params) {
+  return post({
+    url: '/api/member/login',
+    data: params,
+  }).then((res) => res.member)
+}
+
+function register(params) {
+  return post({
+    url: '/api/member/register',
+    data: params,
+  })
+}
+
 window.http = {
   get,
   post,
@@ -75,6 +89,8 @@ window.http = {
   getCategory,
   getBooks,
   getBookById,
-  
+
   getEvaluations,
+  register,
+  login,
 }

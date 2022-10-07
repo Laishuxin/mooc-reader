@@ -28,7 +28,7 @@
   <body>
     <div id="app">
       <!--导航栏部分,显示慕课网Logo和登录按钮-->
-      <van-nav-bar @click-right="clickRight">
+      <van-nav-bar>
         <template #left>
           <a href="/" style="padding-top: 10px;">
             <img src="/images/logo2.png" style="width: 80px;" />
@@ -41,8 +41,10 @@
             {{state.member.nickname}}
           </template>
           <template v-if="!state.isLogin">
-            <img src="/images/user_icon.png" style="height: 30px;" />
-            登录
+            <a href="/login.html">
+              <img src="/images/user_icon.png" style="height: 30px;" />
+              登录
+            </a>
           </template>
         </template>
       </van-nav-bar>
@@ -193,7 +195,7 @@
           },
           //点击右上角"登录"按钮后,跳转至登录页
           clickRight: function () {
-            if (!this.state.isLogin) {
+            if (this.state.isLogin == false) {
               window.location.href = '/login.html'
             }
           },
