@@ -2,12 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mooc.reader.mapper.BookMapper">
   <update id="updateScore">
-        update book b set evaluation_score = (
-            select ifnull(avg(score),0) from evaluation e where e.book_id = b.book_id and state = 'enable'
-        ),evaluation_quantity = (
-            select ifnull(count(*),0) from evaluation e where e.book_id = b.book_id and state = 'enable'
-        )
-    </update>
+UPDATE book b
+SET
+evaluation_score = (
+	SELECT IFNULL(AVG(score),0) FROM evaluation e WHERE e.book_id = b.book_id AND e.state = 'enable'
+),
+evaluation_quantity = (
+	SELECT IFNULL(COUNT(*),0) FROM evaluation e WHERE e.book_id = b.book_id AND e.state = 'enable'
+)
+  </update>
   <select id="selectBookMap" resultType="java.util.LinkedHashMap">
         select b.book_id bookId,
                b.book_name bookName,

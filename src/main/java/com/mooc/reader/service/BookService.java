@@ -3,6 +3,7 @@ package com.mooc.reader.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mooc.reader.entity.Book;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -25,6 +26,8 @@ public interface BookService {
      * @return 图书对象
      */
     Book selectById(Long bookId);
+
+    void updateScore();
 
 //    void updateScore();
 //

@@ -5,6 +5,7 @@ import com.mooc.reader.dto.EvaluationEnjoyDto;
 import com.mooc.reader.entity.Evaluation;
 import com.mooc.reader.service.EvaluationService;
 import com.mooc.reader.utils.ResponseUtils;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -29,6 +30,7 @@ public class EvaluationController {
         return res;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @PostMapping("/add")
     public ResponseUtils addEvaluation(@RequestBody AddEvaluationDto body) {
         try {
@@ -41,6 +43,7 @@ public class EvaluationController {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @PostMapping("/enjoy")
     public ResponseUtils enjoy(@RequestBody EvaluationEnjoyDto body) {
         try {

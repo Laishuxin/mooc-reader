@@ -2,6 +2,7 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -10,6 +11,8 @@
         https://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/context
         https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/task
+        https://www.springframework.org/schema/task/spring-task.xsd
         http://www.springframework.org/schema/tx
         https://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/mvc
@@ -76,6 +79,7 @@
     <property name="dataSource" ref="dataSource" />
   </bean>
   <tx:annotation-driven transaction-manager="transactionManager" />
+  <task:annotation-driven />
 
   <bean id="kaptchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
     <property name="config">
